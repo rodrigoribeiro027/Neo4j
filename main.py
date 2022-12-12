@@ -33,26 +33,40 @@ class App:
             session.read_transaction(self.BuscaUsuarios)
     @staticmethod
     def BuscaUsuarios(db):
-        print("Iniciando Busca de Usuarios\n")
+        print("Iniciando Listagem de Usuarios\n")
         query = "MATCH (u:usuario) RETURN u"
         result = db.run(query)
-        return [print([row]) for row in result]
+        return [print('\n','ID:',row[0].element_id,'\n','Nome:',row[0]._properties["nome"],'\n','Email:',row[0]._properties["email"],'\n','Cpf:',row[0]._properties["cpf"],'\n','Endereco:',row[0]._properties["endereco"],'\n','Telefone:',row[0]._properties["telefone"],'\n') for row in result]
 
     def BuscarUsuarioCpf(self):
         with self.driver.session(database="neo4j") as session:
             session.read_transaction(self.BuscarUsuarioEspecifico)
     @staticmethod
     def BuscarUsuarioEspecifico(db):
+        lista_usuarios = db.run("MATCH (u:usuario) RETURN u")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        print("Iniciando Listagem de vendedores")
+        for u in lista_usuarios:
+            usuario = u.value()
+            print('\nCpf: {cpf}'.format(cpf=usuario._properties['cpf']))
+            print('Nome: {nome}'.format(nome=usuario._properties['nome']),'\n')
         cpfUsu = input("Insira o CPF do usuário que deseja encontrar: ")
         query = "MATCH (u:usuario) WHERE u.cpf = $cpfUsu RETURN u"
         result = db.run(query, cpfUsu=cpfUsu)
-        return [print([row]) for row in result]
+        return [print('\n','ID:',row[0].element_id,'\n','Nome:',row[0]._properties["nome"],'\n','Email:',row[0]._properties["email"],'\n','Cpf:',row[0]._properties["cpf"],'\n','Endereco:',row[0]._properties["endereco"],'\n','Telefone:',row[0]._properties["telefone"],'\n') for row in result]
 
     def AtualizarUsuario(self):
         with self.driver.session(database="neo4j") as session:
             session.execute_write(self.atualizarUsuario)
     @staticmethod
     def atualizarUsuario(db):
+        lista_usuarios = db.run("MATCH (u:usuario) RETURN u")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        print("Iniciando Listagem de vendedores")
+        for u in lista_usuarios:
+            usuario = u.value()
+            print('\nCpf: {cpf}'.format(cpf=usuario._properties['cpf']))
+            print('Nome: {nome}'.format(nome=usuario._properties['nome']),'\n')
         cpfUusuario = input("Insira o CPF do usuário que deseja atualizar: ")
         print('''
                 [1] - Nome
@@ -81,6 +95,13 @@ class App:
             session.write_transaction(self.deletarUsuario)
     @staticmethod
     def deletarUsuario(db):
+        lista_usuarios = db.run("MATCH (u:usuario) RETURN u")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        print("Iniciando Listagem de vendedores")
+        for u in lista_usuarios:
+            usuario = u.value()
+            print('\nCpf: {cpf}'.format(cpf=usuario._properties['cpf']))
+            print('Nome: {nome}'.format(nome=usuario._properties['nome']),'\n')
         cpfUsuario = input("Insira o CPF do usuário a ser deletado: ")
         query = "MATCH (u:usuario) WHERE u.cpf = $cpfUsuario DETACH DELETE u"
         print("Usuário deletado")
@@ -114,24 +135,36 @@ class App:
         print("Iniciando Busca de Vendedores\n")
         query = "MATCH (v:vendedor) RETURN v"
         result = db.run(query)
-        return [print([row]) for row in result]
+        return [print('\n','ID:',row[0].element_id,'\n','Nome:',row[0]._properties["nome"],'\n','Email:',row[0]._properties["email"],'\n','Cnpj:',row[0]._properties["cnpj"],'\n','Endereco:',row[0]._properties["endereco"],'\n','Telefone:',row[0]._properties["telefone"],'\n') for row in result]
 
     def BuscarVendedorCnpj(self):
         with self.driver.session(database="neo4j") as session:
             session.read_transaction(self.BuscarVendedorEspecifico)
     @staticmethod
     def BuscarVendedorEspecifico(db):
+        lista_vendedores = db.run("MATCH (v:vendedor) RETURN v")
+        print("Iniciando Listagem de vendedores\n")
+        for v in lista_vendedores:
+            vendedor = v.value()
+            print('\nCnpj: {cnpj}'.format(cnpj=vendedor._properties['cnpj']))
+            print('Nome: {nome}'.format(nome=vendedor._properties['nome']),'\n')
         cnpjVendedor = input("Insira o CNPJ do Vendedor que deseja encontrar: ")
         print("Iniciando Busca de Vendedores:")
         query = "MATCH (v:vendedor) WHERE v.cnpj = $cnpjVendedor RETURN v"
         result = db.run(query, cnpjVendedor=cnpjVendedor)
-        return [print([row]) for row in result]
+        return [print('\n','ID:',row[0].element_id,'\n','Nome:',row[0]._properties["nome"],'\n','Email:',row[0]._properties["email"],'\n','Cnpj:',row[0]._properties["cnpj"],'\n','Endereco:',row[0]._properties["endereco"],'\n','Telefone:',row[0]._properties["telefone"],'\n') for row in result]
 
     def AtualizarVendedor(self):
         with self.driver.session(database="neo4j") as session:
             session.execute_write(self.atualizarVendedor)
     @staticmethod
     def atualizarVendedor(db):
+        lista_vendedores = db.run("MATCH (v:vendedor) RETURN v")
+        print("Iniciando Listagem de vendedores\n")
+        for v in lista_vendedores:
+            vendedor = v.value()
+            print('\nCnpj: {cnpj}'.format(cnpj=vendedor._properties['cnpj']))
+            print('Nome: {nome}'.format(nome=vendedor._properties['nome']),'\n')
         cnpjVendedor = input("Insira o CNPJ do Vendedor que deseja atualizar: ")
         print('''
                 [1] - Nome
@@ -160,6 +193,12 @@ class App:
             session.write_transaction(self.deleteVendedor)
     @staticmethod
     def deleteVendedor(db):
+        lista_vendedores = db.run("MATCH (v:vendedor) RETURN v")
+        print("Iniciando Listagem de vendedores\n")
+        for v in lista_vendedores:
+            vendedor = v.value()
+            print('\nCnpj: {cnpj}'.format(cnpj=vendedor._properties['cnpj']))
+            print('Nome: {nome}'.format(nome=vendedor._properties['nome']),'\n')
         cpfVendedor = input("Insira o CNPJ do Vendedor: ")
         query = "MATCH (v:vendedor) WHERE v.cnpj = $cpfVendedor DETACH DELETE v"
         print("Vendedor deletado")
@@ -181,11 +220,40 @@ class App:
         quantidadeProduto    = input("Digite a Quantidade Do Produto em Estoque: ")
         DataProducao         = input("Digite a Data de Produção do Produto: ")
         precoProduto         = input("Digite O Preço Do Produto: ")
+        lista_vendedores = db.run("MATCH (v:vendedor) RETURN v")
+        print("Iniciando Listagem de vendedores\n")
+        for v in lista_vendedores:
+            vendedor = v.value()
+            print('\nCnpj: {cnpj}'.format(cnpj=vendedor._properties['cnpj']))
+            print('Nome: {nome}'.format(nome=vendedor._properties['nome']),'\n')
         cnpjVendedor         = input("Digite O CNPJ do vendedor: ")
         result = db.run(query, nomeProduto=nomeProduto,emailSuporte=emailSuporte, quantidadeProduto=quantidadeProduto, DataProducao=DataProducao,precoProduto=precoProduto, cnpjVendedor=cnpjVendedor)
         print("Produto criado com sucesso!")
         print("--------------------------------------------------------------------------------------------------------------------------------------")
-        return [{"object": row["object"]["nome"]["emailSuporte"]["quantidade"]["Dataproducao"]["preco"]["vendedor"]} for row in result]
+        return [{"object": row["object"]["nome"]["emailSuporte"]["quantidade"]["Dataproducao"]["preço"]["vendedor"]} for row in result]
+
+    def criarRelacaoProduto(db):
+        lista_vendedores = db.run("MATCH (v:vendedor) RETURN v")
+        print("Iniciando Listagem de vendedores\n")
+        for v in lista_vendedores:
+            vendedor = v.value()
+            print('\nCnpj: {cnpj}'.format(cnpj=vendedor._properties['cnpj']))
+            print('Nome: {nome}'.format(nome=vendedor._properties['nome']),'\n')
+        cnpjVendedor = input("Insira o CNPJ do Vendedor que deseja encontrar: ")
+        lista_produtos = db.run("MATCH (p:produto) RETURN p")
+        print("Iniciando Listagem de Produtos\n")
+        for p in lista_produtos:
+            produto = p.value()
+            print('\nNome: {nome}'.format(nome=produto._properties['nome']),'\n')
+        produtoNome = input("Insira o CNPJ do Vendedor que deseja encontrar: ")
+        query = '''
+        MATCH
+            (v:Vendedor), (p:Produto)
+        WHERE cnpj(v) = {cnpjVendedor} and p.nome = "{produtoNome}"
+        CREATE (v)-[:VENDE]->(p)
+        '''.format(cnpjVendedor = cnpjVendedor,produtoNome=produtoNome)
+        db.run(query)
+
 
     def BuscarProdutos(self):
         with self.driver.session(database="neo4j") as session:
@@ -195,17 +263,23 @@ class App:
         print("Iniciando Listagem de Produtos\n")
         query = "MATCH (p:produto) RETURN p"
         result = db.run(query)
-        return [print([row]) for row in result]
+        return [print('\n','ID:',row[0].element_id,'\n','Nome:',row[0]._properties["nome"],'\n','Email:',row[0]._properties["emailSuporte"],'\n','Quantidade:',row[0]._properties["quantidade"],'\n','Preco:',row[0]._properties["preço"],'\n','Vendedor:',row[0]._properties["vendedor"],'\n') for row in result]
 
     def BuscarProdutoEspecifico(self):
         with self.driver.session(database="neo4j") as session:
             session.read_transaction(self.BuscaEspecificaProduto)
     @staticmethod
     def BuscaEspecificaProduto(db):
+        lista_produtos = db.run("MATCH (p:produto) RETURN p")
+        print("Iniciando Listagem de Produtos\n")
+        for p in lista_produtos:
+            produto = p.value()
+            print('\nNome: {nome}'.format(nome=produto._properties['nome']),'\n')
+            
         nomeProduto = input("Insira o nome do produto: ")
         query = "MATCH (p:produto) WHERE p.nome = $nomeProduto RETURN p"
         result = db.run(query, nomeProduto=nomeProduto)
-        return [print([row]) for row in result]
+        return [print('\n','ID:',row[0].element_id,'\n','Nome:',row[0]._properties["nome"],'\n','Email:',row[0]._properties["emailSuporte"],'\n','Quantidade:',row[0]._properties["quantidade"],'\n','Preco:',row[0]._properties["preco"],'\n','Vendedor:',row[0]._properties["vendedor"],'\n') for row in result]
     
     
     def deletarProduto(self):
@@ -213,6 +287,11 @@ class App:
             session.write_transaction(self.deleteProduto)
     @staticmethod
     def deleteProduto(db):
+        lista_produtos = db.run("MATCH (p:produto) RETURN p")
+        print("Iniciando Listagem de Produtos\n")
+        for p in lista_produtos:
+            produto = p.value()
+            print('\nNome: {nome}'.format(nome=produto._properties['nome']),'\n')
         NomeProduto = input("Insira o Nome do Produto: ")
         query = "MATCH (p:produto) WHERE p.nome = $NomeProduto DETACH DELETE p"
         print("Produto deletado")
@@ -224,6 +303,11 @@ class App:
             session.execute_write(self.atualizaProduto)
     @staticmethod
     def atualizaProduto(db):
+        lista_produtos = db.run("MATCH (p:produto) RETURN p")
+        print("Iniciando Listagem de Produtos\n")
+        for p in lista_produtos:
+            produto = p.value()
+            print('\nNome: {nome}'.format(nome=produto._properties['nome']),'\n')
         nomeProduto = input("Insira o nome do Produto: ")
         print('''
                 [1] - Nome
@@ -248,6 +332,124 @@ class App:
         print("Produto atualizado com sucesso!")
         print("--------------------------------------------------------------------------------------------------------------------------------------")
         db.run(query, nomeProduto = nomeProduto, escolha=escolha, DadoAtualizado=DadoAtualizado)
+
+    #------------------------------------------------------------  Crud Compra -----------------------------------------------------------------------------  
+    def ComprarProduto(self):
+        with self.driver.session(database="neo4j") as session:
+            session.execute_write(self.RealizarCompra)
+    @staticmethod
+    def RealizarCompra(db):
+        query = ("CREATE (object: compra { produto: $nomeProduto, quantidade: $quantidadeCompra, vendedor: $cnpjVendedor, usuario: $cpfUsuario})")
+        lista_produtos = db.run("MATCH (p:produto) RETURN p")
+        print("Iniciando Listagem de Produtos")
+        for p in lista_produtos:
+            produto = p.value()
+            print('\nNome: {nome}'.format(nome=produto._properties['nome']))
+            print('preço: {preço}'.format(preço=produto._properties['preço']))
+        nomeProduto = input("Nome do produto: ")
+        quantidadeCompra = input("Quantidade: ")
+        lista_vendedores = db.run("MATCH (v:vendedor) RETURN v")
+        print("Iniciando Listagem de vendedores\n")
+        for v in lista_vendedores:
+            vendedor = v.value()
+            print('\nCnpj: {cnpj}'.format(cnpj=vendedor._properties['cnpj']))
+            print('Nome: {nome}'.format(nome=vendedor._properties['nome']),'\n')
+        cnpjVendedor = input("CNPJ do vendedor: ")
+        lista_usuarios = db.run("MATCH (u:usuario) RETURN u")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        print("Iniciando Listagem de usuarios")
+        for u in lista_usuarios:
+            usuario = u.value()
+            print('\nCpf: {cpf}'.format(cpf=usuario._properties['cpf']))
+            print('Nome: {nome}'.format(nome=usuario._properties['nome']),'\n')
+        cpfUsuario = input("CPF do usuário: ")
+        result = db.run(query, nomeProduto=nomeProduto, quantidadeCompra=quantidadeCompra, cnpjVendedor=cnpjVendedor, cpfUsuario=cpfUsuario)
+        print("Compra Realizada com sucesso!")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        return [{"object": row["object"]["produto"]["quantidade"]["vendedor"]["usuario"]} for row in result]
+
+    def BuscarCompras(self):
+            with self.driver.session(database="neo4j") as session:
+                session.read_transaction(self.buscaCompra)
+    @staticmethod
+    def buscaCompra(db):
+        print("Iniciando Listagem de Compras\n")
+        query = "MATCH (c:compra) RETURN c"
+        result = db.run(query)
+        return [print('\n','ID:',row[0].element_id,'\n','Produto:',row[0]._properties["produto"],'\n','quantidade:',row[0]._properties["quantidade"],'\n','vendedor:',row[0]._properties["vendedor"],'\n','usuario:',row[0]._properties["usuario"],'\n') for row in result]
+
+
+    def deletarCompra(self):
+        with self.driver.session(database="neo4j") as session:
+            session.write_transaction(self.deleteCompra)
+    @staticmethod
+    def deleteCompra(db):
+        lista_Compras = db.run("MATCH (c:compra) RETURN c")
+        print("Iniciando Listagem de compras\n")
+        for c in lista_Compras:
+            compra = c.value()
+            print('\nID: {id}'.format(id=compra.element_id),'\n')
+            print('produto: {produto}'.format(produto=compra._properties['produto']),'\n')
+        NomeProduto = input("Insira Qual Produto voce comprou e Excluiremos Sua Compra: ")
+        query = "MATCH (c:compra) WHERE c.produto = $NomeProduto DETACH DELETE c"
+        print("Produto deletado")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        db.run(query, NomeProduto=NomeProduto)
+    
+    def BuscarCompraEspecifico(self):
+        with self.driver.session(database="neo4j") as session:
+            session.read_transaction(self.BuscaEspecificacompra)
+    @staticmethod
+    def BuscaEspecificacompra(db):
+        lista_Compras = db.run("MATCH (c:compra) RETURN c")
+        print("Iniciando Listagem de compras\n")
+        for c in lista_Compras:
+            compra = c.value()
+            print('\nID: {id}'.format(id=compra.element_id))
+            print('produto: {produto}'.format(produto=compra._properties['produto']),'\n')
+        nomecompra = input("Insira o nome do produto que voce colocou para Comprar: ")
+        query = "MATCH (c:compra) WHERE c.produto = $nomecompra RETURN c"
+        result = db.run(query, nomecompra=nomecompra)
+        return [print('\n','ID:',row[0].element_id,'\n','Produto:',row[0]._properties["produto"],'\n','quantidade:',row[0]._properties["quantidade"],'\n','vendedor:',row[0]._properties["vendedor"],'\n','usuario:',row[0]._properties["usuario"],'\n') for row in result]
+
+
+    def AtualizarCompra(self):
+        with self.driver.session(database="neo4j") as session:
+            session.execute_write(self.atualizaCompra)
+    @staticmethod
+    def atualizaCompra(db):
+        lista_Compras = db.run("MATCH (c:compra) RETURN c")
+        print("Iniciando Listagem de compras\n")
+        for c in lista_Compras:
+            compra = c.value()
+            print('\nID: {id}'.format(id=compra.element_id))
+            print('produto: {produto}'.format(produto=compra._properties['produto']))
+            print('quantidade: {quantidade}'.format(quantidade=compra._properties['quantidade']))
+            print('vendedor: {vendedor}'.format(vendedor=compra._properties['vendedor']))
+            print('usuario: {usuario}'.format(usuario=compra._properties['usuario']),'\n')
+        nomecompra = input("Insira o nome do produto que voce colocou para Comprar: ")
+        print('''
+                [1] - Produto
+                [2] - quantidade
+                [3] - vendedor
+                [4] - usuario
+            ''')
+        escolha = input("Insira o número da opção que deseja atualizar: ")
+        while int(escolha) < 1 or int(escolha) > 7:
+            print("Opção inválida")
+            escolha = input("Insira outra opção: ")
+        if escolha   == "1": escolha = "produto" 
+        elif escolha == "2": escolha = "quantidade"
+        elif escolha == "3": escolha = "vendedor"
+        elif escolha == "4": escolha = "usuario"
+        DadoAtualizado = input("Insira o novo valor: ")
+        query = ("MATCH (c:compra) WHERE c.produto = $nomecompra SET c." + escolha + " = $DadoAtualizado")
+        print("Compra atualizado com sucesso!")
+        print("--------------------------------------------------------------------------------------------------------------------------------------")
+        db.run(query, nomecompra = nomecompra, escolha=escolha, DadoAtualizado=DadoAtualizado)
+
+
+
 
 
 if __name__ == "__main__":
@@ -278,6 +480,12 @@ if __name__ == "__main__":
     - [13]buscar Produto Especifico\n
     - [14]Atualiza Produto\n
     - [15]Deleta Produto\n
+--------------------  [ Compra ]  --------------------  
+    - [16]Criar Compra\n
+    - [17]buscar Compra\n
+    - [18]buscar Compra Especifico\n
+    - [19]Atualiza Compra\n
+    - [20]Deleta Compra\n
     ''')
         escolha = input(str('escolha Uma Obção:'))
         match escolha:
@@ -315,3 +523,13 @@ if __name__ == "__main__":
                 app.AtualizarProduto()
             case '15':
                 app.deletarProduto()
+            case '16':
+                app.ComprarProduto()
+            case '17':
+                app.BuscarCompras()
+            case '18':
+                app.BuscarCompraEspecifico()
+            case '19':
+                app.AtualizarCompra()
+            case '20':
+                app.deletarCompra()
